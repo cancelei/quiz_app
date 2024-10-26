@@ -1,4 +1,20 @@
-<div>
-  <h1 class="font-bold text-4xl">Questions#new</h1>
-  <p>Find me in app/views/questions/new.html.erb</p>
-</div>
+<h1 class="text-3xl font-bold"><%= action_name.capitalize %> Question</h1>
+
+<%= form_with model: [@quiz, @question], local: true do |form| %>
+  <div class="mb-4">
+    <%= form.label :content, class: "block text-gray-700" %>
+    <%= form.text_area :content, class: "w-full border border-gray-300 rounded-md p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :image_url, "Image URL (optional)", class: "block text-gray-700" %>
+    <%= form.url_field :image_url, class: "w-full border border-gray-300 rounded-md p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :multiple_correct_answers, "Allow Multiple Correct Answers", class: "block text-gray-700" %>
+    <%= form.check_box :multiple_correct_answers %>
+  </div>
+
+  <%= form.submit "#{action_name.capitalize} Question", class: "bg-blue-500 text-white px-4 py-2 rounded-md" %>
+<% end %>

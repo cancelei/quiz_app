@@ -1,4 +1,21 @@
-<div>
-  <h1 class="font-bold text-4xl">Quizzes#show</h1>
-  <p>Find me in app/views/quizzes/show.html.erb</p>
-</div>
+<h1 class="font-bold text-4xl"><%= @quiz.title %></h1>
+<p class="mt-2 text-gray-600"><%= @quiz.description %></p>
+<p class="text-gray-500">Time Limit: <%= @quiz.time_limit %> mins</p>
+
+<% if current_user.admin? %>
+  <%= link_to "Edit Quiz", edit_quiz_path(@quiz), class: "text-blue-500 hover:underline" %> |
+  <%= link_to "Delete Quiz", quiz_path(@quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+<% end %>
+  <% if current_user.quiz_attempts.exists?(quiz_id: @quiz.id) %>
+    <%= link_to "Retake Quiz", new_user_quiz_attempt_path(quiz_id: @quiz.id), class: "mt-4 inline-block text-blue-500 hover:underline" %>
+  <% else %>
+    <%= link_to "Take Quiz", new_user_quiz_attempt_path(quiz_id: @quiz.id), class: "mt-4 inline-block text-blue-500 hover:underline" %>
+  <% end %>
+
+
+<h2 class="font-semibold text-2xl mt-6">Questions</h2>
+<% @quiz.questions.each do |question| %>
+  <div class="mt-4 p-4 border rounded-md">
+    <p><%= question.content %></p>
+  </div>
+<% end %>

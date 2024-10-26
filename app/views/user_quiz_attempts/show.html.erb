@@ -1,4 +1,15 @@
-<div>
-  <h1 class="font-bold text-4xl">UserQuizAttempts#show</h1>
-  <p>Find me in app/views/user_quiz_attempts/show.html.erb</p>
-</div>
+<h1 class="text-3xl font-bold">Quiz Attempt</h1>
+<% @questions.each do |question| %>
+  <div class="mt-4 p-4 border rounded-md">
+    <p><%= question.content %></p>
+
+    <% question.answers.each do |answer| %>
+      <%= form_with url: user_answers_path, method: :post, local: true do |form| %>
+        <%= form.hidden_field :question_id, value: question.id %>
+        <%= form.hidden_field :answer_id, value: answer.id %>
+        <%= form.check_box :selected %> <%= answer.content %>
+        <%= form.submit "Submit Answer", class: "bg-green-500 text-white px-2 py-1 rounded-md" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
