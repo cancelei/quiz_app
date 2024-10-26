@@ -7,7 +7,6 @@
         
         <% if current_user.admin? %>
           <%= link_to "Manage Quizzes", quizzes_path, class: "text-white hover:underline" %>
-          <%= link_to "Admin Dashboard", admin_dashboard_path, class: "text-white hover:underline" %>
         <% end %>
         
         <%= button_to "Logout", session_path(Current.session), method: :delete, class: "text-white hover:underline" %>

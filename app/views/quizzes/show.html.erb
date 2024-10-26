@@ -6,16 +6,28 @@
   <%= link_to "Edit Quiz", edit_quiz_path(@quiz), class: "text-blue-500 hover:underline" %> |
   <%= link_to "Delete Quiz", quiz_path(@quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
 <% end %>
-  <% if current_user.quiz_attempts.exists?(quiz_id: @quiz.id) %>
-    <%= link_to "Retake Quiz", new_user_quiz_attempt_path(quiz_id: @quiz.id), class: "mt-4 inline-block text-blue-500 hover:underline" %>
-  <% else %>
-    <%= link_to "Take Quiz", new_user_quiz_attempt_path(quiz_id: @quiz.id), class: "mt-4 inline-block text-blue-500 hover:underline" %>
-  <% end %>
 
+<% if current_user.user_quiz_attempts.exists?(quiz_id: @quiz.id) %>
+  <%= button_to "Retake Quiz", quiz_user_quiz_attempts_path(@quiz), method: :post, class: "mt-4 inline-block text-blue-500 hover:underline" %>
+<% else %>
+  <%= button_to "Take Quiz", quiz_user_quiz_attempts_path(@quiz), method: :post, class: "mt-4 inline-block text-blue-500 hover:underline" %>
+<% end %>
 
 <h2 class="font-semibold text-2xl mt-6">Questions</h2>
+<%= link_to "Add Question", new_quiz_question_path(@quiz) %>
+
 <% @quiz.questions.each do |question| %>
   <div class="mt-4 p-4 border rounded-md">
     <p><%= question.content %></p>
+    
+    <h3 class="font-semibold text-xl mt-2">Answers</h3>
+    <% question.answers.each do |answer| %>  <!-- Loop through each answer for the question -->
+      <div class="mt-2 p-2 border-l-4 border-blue-500">
+        <p><%= answer.content %></p>
+        <% if answer.correct? %>  <!-- Optional: Highlight correct answers -->
+          <span class="text-green-500">(Correct)</span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>

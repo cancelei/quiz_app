@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :quiz_accesses, dependent: :destroy
   has_many :accessible_quizzes, through: :quiz_accesses, source: :quiz
   has_many :user_quiz_attempts, dependent: :destroy
+  has_many :quizzes, dependent: :destroy
 
   has_many :sessions, dependent: :destroy
 

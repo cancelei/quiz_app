@@ -1,5 +1,6 @@
 <h1 class="font-bold text-4xl">All Quizzes</h1>
 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+  <%= link_to "New", new_quiz_path %>
   <% @quizzes.each do |quiz| %>
     <div class="border rounded-lg p-4 bg-gray-50 shadow-md">
       <h2 class="text-xl font-semibold"><%= link_to quiz.title, quiz_path(quiz) %></h2>
@@ -7,6 +8,7 @@
       <p>Time Limit: <%= quiz.time_limit %> mins</p>
       
       <% if current_user.admin? %>
+
         <%= link_to "Edit", edit_quiz_path(quiz), class: "text-blue-500 hover:underline" %> |
         <%= link_to "Delete", quiz_path(quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
       <% else %>

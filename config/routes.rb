@@ -22,12 +22,14 @@ Rails.application.routes.draw do
     resources :questions, only: [:new, :create, :edit, :update, :destroy] do
       resources :answers, only: [:new, :create, :edit, :update, :destroy]
     end
+    
+    resources :user_quiz_attempts, only: [:create, :show] do
+      resources :user_answers, only: [:create]
+    end
   end
 
   # User Quiz Attempts and Answers
-  resources :user_quiz_attempts, only: [:create, :show] do
-    resources :user_answers, only: [:create]
-  end
+  
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
