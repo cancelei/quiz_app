@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  image_url: MyString
+  multiple_correct_answers: false
+  quiz: one
+
+two:
+  content: MyText
+  image_url: MyString
+  multiple_correct_answers: false
+  quiz: two

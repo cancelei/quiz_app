@@ -1,0 +1,14 @@
+<nav class="bg-blue-600 p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <%= link_to "QuizApp", root_path, class: "text-white font-bold text-xl" %>
+        <div class="space-x-4">
+          <% if logged_in? %>
+            <%= link_to "Home", root_path, class: "text-white hover:underline" %>
+            <%= button_to "Logout", session_path(Current.session), method: :delete, class: "text-white hover:underline" %>
+          <% else %>
+            <%= link_to "Login", sign_in_path, class: "text-white hover:underline" %>
+            <%= link_to "Sign Up", sign_up_path, class: "text-white hover:underline" %>
+          <% end %>
+        </div>
+      </div>
+    </nav>

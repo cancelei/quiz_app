@@ -1,0 +1,30 @@
+<h1 class="text-3xl font-bold mb-6">Welcome to QuizApp</h1>
+
+<% if logged_in? %>
+  <h2 class="text-xl font-semibold mb-4">Available Quizzes</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @available_quizzes.each do |quiz| %>
+      <div class="bg-white p-4 rounded-md shadow-md">
+        <h3 class="text-lg font-bold"><%= quiz.title %></h3>
+        <p class="text-gray-600"><%= truncate(quiz.description, length: 100) %></p>
+        <p class="text-gray-500 text-sm">Time Limit: <%= quiz.time_limit %> mins</p>
+
+        <% if current_user.quiz_attempts.exists?(quiz_id: quiz.id) %>
+          <% attempt = current_user.quiz_attempts.find_by(quiz_id: quiz.id) %>
+          <p class="text-gray-600 mt-2">
+            <strong>Your Last Score:</strong> <%= attempt.score %>%
+          </p>
+          <p class="text-gray-600">Attempts: <%= attempt.count %></p>
+          <%= link_to "Retake Quiz", quiz_path(quiz), class: "mt-4 inline-block text-blue-500 hover:underline" %>
+        <% else %>
+          <%= link_to "Take Quiz", quiz_path(quiz), class: "mt-4 inline-block text-blue-500 hover:underline" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-gray-700 text-lg">
+    Please <%= link_to "sign up", sign_up_path, class: "text-blue-500 hover:underline" %> or 
+    <%= link_to "log in", sign_in_path, class: "text-blue-500 hover:underline" %> to start taking quizzes.
+  </p>
+<% end %>
