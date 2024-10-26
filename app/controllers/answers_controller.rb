@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :set_quiz
   before_action :set_question
   before_action :set_answer, only: %i[edit update destroy]
   before_action :require_admin
@@ -33,6 +34,10 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def set_quiz
+    @quiz = Quiz.find(params[:quiz_id])
+  end
 
   def set_question
     @question = Question.find(params[:question_id])

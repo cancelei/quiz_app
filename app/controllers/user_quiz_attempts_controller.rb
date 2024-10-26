@@ -1,6 +1,7 @@
 class UserQuizAttemptsController < ApplicationController
+  before_action :set_quiz
+
   def create
-    @quiz = Quiz.find(params[:quiz_id])
     @user_quiz_attempt = current_user.user_quiz_attempts.build(quiz: @quiz)
     @user_quiz_attempt.attempted_at = Time.current
 
@@ -16,5 +17,11 @@ class UserQuizAttemptsController < ApplicationController
   def show
     @user_quiz_attempt = UserQuizAttempt.find(params[:id])
     @questions = @user_quiz_attempt.quiz.questions
+  end
+
+  private
+
+  def set_quiz
+    @quiz = Quiz.find(params[:quiz_id])
   end
 end

@@ -3,13 +3,17 @@
   <div class="mt-4 p-4 border rounded-md">
     <p><%= question.content %></p>
 
-    <% question.answers.each do |answer| %>
-      <%= form_with url: user_answers_path, method: :post, local: true do |form| %>
-        <%= form.hidden_field :question_id, value: question.id %>
-        <%= form.hidden_field :answer_id, value: answer.id %>
-        <%= form.check_box :selected %> <%= answer.content %>
-        <%= form.submit "Submit Answer", class: "bg-green-500 text-white px-2 py-1 rounded-md" %>
+    <%= form_with url: quiz_user_quiz_attempt_user_answers_path(@quiz, @user_quiz_attempt), method: :post, local: true do |form| %>
+      <%= form.hidden_field :question_id, value: question.id %>
+
+      <% question.answers.each do |answer| %>
+        <div>
+          <%= form.check_box :answer_ids, { multiple: true, checked: answer.user_answers.exists?(user_quiz_attempt_id: @user_quiz_attempt.id) }, answer.id, nil %>
+          <%= answer.content %>
+        </div>
       <% end %>
+
+      <%= form.submit "Submit Answers", class: "bg-green-500 text-white px-2 py-1 rounded-md mt-2", disabled: question.user_answers.exists?(user_quiz_attempt_id: @user_quiz_attempt.id) %>
     <% end %>
   </div>
 <% end %>

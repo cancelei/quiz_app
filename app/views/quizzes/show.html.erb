@@ -2,9 +2,9 @@
 <p class="mt-2 text-gray-600"><%= @quiz.description %></p>
 <p class="text-gray-500">Time Limit: <%= @quiz.time_limit %> mins</p>
 
-<% if current_user.admin? %>
+<% if admin? %>
   <%= link_to "Edit Quiz", edit_quiz_path(@quiz), class: "text-blue-500 hover:underline" %> |
-  <%= link_to "Delete Quiz", quiz_path(@quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
+  <%= button_to "Delete Quiz", quiz_path(@quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
 <% end %>
 
 <% if current_user.user_quiz_attempts.exists?(quiz_id: @quiz.id) %>
@@ -21,10 +21,12 @@
     <p><%= question.content %></p>
     
     <h3 class="font-semibold text-xl mt-2">Answers</h3>
+    <%= link_to "Add Answer", new_quiz_question_answer_path(@quiz, question) %>
+
     <% question.answers.each do |answer| %>  <!-- Loop through each answer for the question -->
       <div class="mt-2 p-2 border-l-4 border-blue-500">
         <p><%= answer.content %></p>
-        <% if answer.correct? %>  <!-- Optional: Highlight correct answers -->
+        <% if answer.correct? && admin? %>  <!-- Optional: Highlight correct answers -->
           <span class="text-green-500">(Correct)</span>
         <% end %>
       </div>

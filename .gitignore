@@ -9,12 +9,16 @@
 
 # Ignore all environment files.
 /.env*
+node_modules/
+.idea/
 
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+.generators
+.rakeTasks
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
