@@ -42,7 +42,12 @@ class QuizzesController < ApplicationController
 
   def add_question
     @quiz = Quiz.new
-    @quiz.questions.build
+    @question = @quiz.questions.build
+
+    helpers.form_with(model: @quiz, local: true) do |form|
+      @form = form
+    end
+
     respond_to do |format|
       format.turbo_stream
     end
