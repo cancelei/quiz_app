@@ -7,12 +7,12 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    # @quiz is set by `set_quiz`
-    @questions = @quiz.questions
+    @questions = @quiz.questions.includes(:answers)
   end
 
   def new
     @quiz = Quiz.new
+    @quiz.questions.build.answers.build
   end
 
   def create
@@ -40,14 +40,36 @@ class QuizzesController < ApplicationController
     redirect_to quizzes_path, notice: 'Quiz was successfully deleted.'
   end
 
+  def add_question
+    @quiz = Quiz.new
+    @quiz.questions.build
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def add_answer
+    Rails.logger.debug "Params: #{params.inspect}" # Log the parameters
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.build
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   private
 
   def set_quiz
+    # Only find the quiz if the action is not add_question
+    return if action_name == 'add_question'
+    
     @quiz = Quiz.find(params[:id])
   end
 
   def quiz_params
-    params.require(:quiz).permit(:title, :description, :time_limit)
+    params.require(:quiz).permit(:title, :description, :time_limit,
+      questions_attributes: [:id, :content, :_destroy,
+        answers_attributes: [:id, :content, :correct, :_destroy]])
   end
 
   def require_admin

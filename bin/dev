@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+if ! pg_ctl status; then
+  echo "Starting postgres..."
+  pg_ctl start
+fi
+
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman

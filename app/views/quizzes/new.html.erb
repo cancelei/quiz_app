@@ -16,5 +16,13 @@
     <%= form.number_field :time_limit, class: "w-full border border-gray-300 rounded-md p-2" %>
   </div>
 
+  <h2 class="font-semibold text-2xl mt-6">Questions</h2>
+  <div id="questions">
+    <%= form.fields_for :questions do |question_form| %>
+      <%= render 'question_fields', f: question_form %>
+    <% end %>
+  </div>
+  <%= link_to 'Add Question', add_question_quizzes_path, class: 'add-question bg-blue-500 text-white px-2 py-1 rounded-md', data: { turbo_action: 'replace', turbo_method: 'post' } %>
+
   <%= form.submit "#{action_name.capitalize} Quiz", class: "bg-blue-500 text-white px-4 py-2 rounded-md" %>
 <% end %>

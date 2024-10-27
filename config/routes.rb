@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   # Quiz resources
   resources :quizzes do
+    post 'add_question', on: :collection, to: 'quizzes#add_question'
+    post 'add_answer', on: :collection, to: 'quizzes#add_answer'
     resources :questions, only: [:new, :create, :edit, :update, :destroy] do
       resources :answers, only: [:new, :create, :edit, :update, :destroy]
     end
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
     resources :user_quiz_attempts, only: [:create, :show] do
       resources :user_answers, only: [:create]
     end
+
   end
 
   # User Quiz Attempts and Answers

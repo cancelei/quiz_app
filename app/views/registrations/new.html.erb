@@ -1,63 +1,69 @@
-<h1 class="text-2xl font-bold mb-4">Sign up</h1>
+<div class="flex space-x-8">
+  <div class="w-1/2">
+    <h1 class="text-2xl font-bold mb-4">Sign up</h1>
 
-<%= form_with(url: sign_up_path, local: true) do |form| %>
-  <% if @user.errors.any? %>
-    <div class="bg-red-100 text-red-700 p-4 rounded-md mb-4">
-      <h2 class="font-semibold mb-2"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-      <ul class="list-disc pl-5">
-        <% @user.errors.full_messages.each do |error| %>
-          <li><%= error %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <%= form_with(url: sign_up_path, local: true) do |form| %>
+      <% if @user.errors.any? %>
+        <div class="bg-red-100 text-red-700 p-4 rounded-md mb-4">
+          <h2 class="font-semibold mb-2"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+          <ul class="list-disc pl-5">
+            <% @user.errors.full_messages.each do |error| %>
+              <li><%= error %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="mb-4">
-    <%= form.label :email, class: "block text-gray-700 font-medium" %>
-    <%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md" %>
+      <div class="mb-4">
+        <%= form.label :email, class: "block text-gray-700 font-medium" %>
+        <%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :password, class: "block text-gray-700 font-medium" %>
+        <%= form.password_field :password, required: true, autocomplete: "new-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
+        <div class="text-sm text-gray-600 mt-1">12 characters minimum.</div>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :password_confirmation, class: "block text-gray-700 font-medium" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div>
+        <%= form.submit "Sign up", class: "px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" %>
+      </div>
+    <% end %>
+
+    <% if notice %>
+      <p class="text-green-600 mt-4"><%= notice %></p>
+    <% end %>
+
+    <% if alert %>
+      <p class="text-red-600 mt-2"><%= alert %></p>
+    <% end %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :password, class: "block text-gray-700 font-medium" %>
-    <%= form.password_field :password, required: true, autocomplete: "new-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
-    <div class="text-sm text-gray-600 mt-1">12 characters minimum.</div>
+  <div class="w-1/2">
+    <h1 class="text-2xl font-bold mb-4">Sign in</h1>
+
+    <%= form_with(url: sign_in_path, local: true) do |form| %>
+      <div class="mb-4">
+        <%= form.label :email, class: "block text-gray-700 font-medium" %>
+        <%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :password, class: "block text-gray-700 font-medium" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div>
+        <%= form.submit "Sign in", class: "px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="mb-4">
-    <%= form.label :password_confirmation, class: "block text-gray-700 font-medium" %>
-    <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
-  </div>
-
-  <div>
-    <%= form.submit "Sign up", class: "px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" %>
-  </div>
-<% end %>
-
-<% if notice %>
-  <p class="text-green-600 mt-4"><%= notice %></p>
-<% end %>
-
-<% if alert %>
-  <p class="text-red-600 mt-2"><%= alert %></p>
-<% end %>
-
-<h1 class="text-2xl font-bold mb-4 mt-8">Sign in</h1>
-
-<%= form_with(url: sign_in_path, local: true) do |form| %>
-  <div class="mb-4">
-    <%= form.label :email, class: "block text-gray-700 font-medium" %>
-    <%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email", class: "w-full p-2 border border-gray-300 rounded-md" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :password, class: "block text-gray-700 font-medium" %>
-    <%= form.password_field :password, required: true, autocomplete: "current-password", class: "w-full p-2 border border-gray-300 rounded-md" %>
-  </div>
-
-  <div>
-    <%= form.submit "Sign in", class: "px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600" %>
-  </div>
-<% end %>
+</div>
 
 <div class="mt-4 text-sm text-gray-700">
   <%= link_to "Sign up", sign_up_path, class: "text-blue-500 hover:underline" %> |

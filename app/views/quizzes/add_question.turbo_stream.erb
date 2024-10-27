@@ -1,0 +1,7 @@
+<%= turbo_stream.append "questions" do %>
+  <%= form_with(model: @quiz, local: true) do |form| %>
+    <%= form.fields_for :questions do |question_form| %>
+      <%= render 'question_fields', f: question_form %>
+    <% end %>
+  <% end %>
+<% end %
