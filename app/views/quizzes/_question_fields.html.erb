@@ -13,5 +13,8 @@
       </div>
     <% end %>
   </div>
-  <%= link_to 'Add Answer', add_answer_quizzes_path, data: { turbo_action: 'replace', turbo_method: 'post' }, class: 'add-answer bg-blue-500 text-white px-2 py-1 rounded-md' %>
+
+  <button type="button" class="add-answer bg-gray-500 text-white px-2 py-1 rounded-md mt-2" onclick="addAnswer(this)">
+    Add Answer
+  </button>
 </div>

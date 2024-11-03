@@ -40,28 +40,6 @@ class QuizzesController < ApplicationController
     redirect_to quizzes_path, notice: 'Quiz was successfully deleted.'
   end
 
-  def add_question
-    @quiz = Quiz.new
-    @question = @quiz.questions.build
-
-    helpers.form_with(model: @quiz, local: true) do |form|
-      @form = form
-    end
-
-    respond_to do |format|
-      format.turbo_stream
-    end
-  end
-
-  def add_answer
-    Rails.logger.debug "Params: #{params.inspect}" # Log the parameters
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.build
-    respond_to do |format|
-      format.turbo_stream
-    end
-  end
-
   private
 
   def set_quiz

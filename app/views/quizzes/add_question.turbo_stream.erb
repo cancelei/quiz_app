@@ -1,5 +1,0 @@
-<%= turbo_stream.append "questions" do %>
-  <%= @form.fields_for :questions do |question_form| %>
-    <%= render partial: 'question_fields', locals: { f: question_form } %>
-  <% end %>
-<% end %>
