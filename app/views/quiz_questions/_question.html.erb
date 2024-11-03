@@ -1,0 +1,50 @@
+<div class="mt-4 p-4 border rounded-md" data-controller="quiz-navigation">
+  <p class="mb-4">Question <%= question_number %> of <%= total_questions %></p>
+  <p class="text-lg mb-4"><%= question.content %></p>
+
+  <%= form_with url: quiz_user_quiz_attempt_user_answers_path(quiz, quiz_attempt), 
+              method: :post,
+              data: { 
+                quiz_navigation_target: "form",
+                action: "change->quiz-navigation#toggleNextButton"
+              } do |form| %>
+    
+    <%= form.hidden_field :question_id, value: question.id %>
+    <%= form.hidden_field :question_number, value: question_number %>
+
+    <div class="space-y-2">
+      <% question.answers.each do |answer| %>
+        <div class="flex items-center">
+          <%= form.check_box :answer_ids, 
+              { multiple: true, 
+                checked: answer.user_answers.exists?(user_quiz_attempt_id: quiz_attempt.id),
+                class: "mr-2" }, 
+              answer.id, 
+              nil %>
+          <%= form.label "answer_ids_#{answer.id}", answer.content, class: "text-gray-700" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-4 space-x-4">
+      <% if question_number > 1 %>
+        <%= link_to "Previous", 
+            quiz_user_quiz_attempt_question_path(quiz, quiz_attempt, question_number - 1),
+            class: "bg-gray-500 text-white px-4 py-2 rounded-md",
+            data: { turbo_frame: "quiz_question" } %>
+      <% end %>
+
+      <% if question_number < total_questions %>
+        <%= form.submit "Next", 
+            class: "bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50",
+            data: { quiz_navigation_target: "nextButton" } %>
+      <% else %>
+        <%= form.submit "Finish Quiz", 
+            name: "commit",
+            value: "Finish Quiz",
+            class: "bg-green-500 text-white px-4 py-2 rounded-md",
+            data: { quiz_navigation_target: "submitButton" } %>
+      <% end %>
+    </div>
+  <% end %>
+</div> 

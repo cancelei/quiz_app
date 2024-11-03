@@ -1,0 +1,57 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-4">Quiz Results: <%= quiz.title %></h1>
+  
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="text-center">
+      <div class="text-4xl font-bold mb-2 <%= quiz_attempt.score >= 70 ? 'text-green-600' : 'text-red-600' %>">
+        <%= quiz_attempt.score %>%
+      </div>
+      <p class="text-gray-600">
+        Completed on: <%= quiz_attempt.completed_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+      <p class="text-gray-600">
+        Time taken: <%= distance_of_time_in_words(quiz_attempt.attempted_at, quiz_attempt.completed_at) %>
+      </p>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <% questions.each_with_index do |question, index| %>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-semibold mb-4">
+          Question <%= index + 1 %>: <%= question.content %>
+        </h3>
+        
+        <div class="space-y-2">
+          <% question.answers.each do |answer| %>
+            <% user_selected = user_answers.any? { |ua| ua.answer_id == answer.id } %>
+            <div class="flex items-center p-2 rounded-md <%= answer_status_class(answer, user_selected) %>">
+              <% if user_selected %>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              <% end %>
+              <span><%= answer.content %></span>
+              <% if answer.correct? %>
+                <span class="ml-2 text-green-600">(Correct Answer)</span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <% if question.answers.any? { |a| a.correct? && user_answers.none? { |ua| ua.answer_id == a.id } } %>
+          <p class="mt-2 text-sm text-red-600">You missed some correct answers.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-8 flex justify-center space-x-4">
+    <%= link_to "Back to Quiz", quiz_path(quiz), 
+        class: "bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600" %>
+    <%= button_to "Retake Quiz", 
+        quiz_user_quiz_attempts_path(quiz), 
+        method: :post,
+        class: "bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600" %>
+  </div>
+</div> 
