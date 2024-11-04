@@ -6,6 +6,15 @@
       <h2 class="text-xl font-semibold"><%= link_to quiz.title, quiz_path(quiz) %></h2>
       <p><%= truncate(quiz.description, length: 80) %></p>
       <p>Time Limit: <%= quiz.time_limit %> mins</p>
+      <p>Questions: <%= quiz.questions.count %></p>
+      <p>Attempts: <%= quiz.user_quiz_attempts.count %></p>
+      <p>Average Score: <%= quiz.user_quiz_attempts.average(:score)&.round(2) || 'No attempts yet' %></p>
+      <p>Highest Score: <%= quiz.user_quiz_attempts.maximum(:score) || 'No attempts yet' %></p>
+      <p>Lowest Score: <%= quiz.user_quiz_attempts.minimum(:score) || 'No attempts yet' %></p>
+      <p>Completed: <%= quiz.user_quiz_attempts.where(completed: true).count %></p>
+      <p>Incomplete: <%= quiz.user_quiz_attempts.where(completed: false).count %></p>
+      <p>Created At: <%= quiz.created_at.strftime("%B %d, %Y") %></p>
+      <p>Updated At: <%= quiz.updated_at.strftime("%B %d, %Y") %></p>
 
       <% if admin? %>
         <%= link_to "Edit", edit_quiz_path(quiz), class: "text-blue-500 hover:underline" %> |
