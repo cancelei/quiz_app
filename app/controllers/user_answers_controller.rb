@@ -57,14 +57,33 @@ class UserAnswersController < ApplicationController
   end
 
   def complete_quiz
+    total_score = 0
     total_questions = @quiz.questions.count
-    correct_answers = @quiz_attempt.user_answers.where(correct: true).count
-    score = ((correct_answers.to_f / total_questions) * 100).round(2)
+
+    @quiz.questions.each do |question|
+      # Get all possible correct answers for this question
+      total_correct_answers = question.answers.where(correct: true).count
+      next if total_correct_answers.zero?
+
+      # Get user's answers for this question
+      user_answers = @quiz_attempt.user_answers.where(question: question)
+      user_correct_answers = user_answers.where(correct: true).count
+      user_incorrect_answers = user_answers.where(correct: false).count
+
+      # Calculate score for this question
+      if user_incorrect_answers.zero? && user_correct_answers > 0
+        question_score = (user_correct_answers.to_f / total_correct_answers) * 100
+        total_score += question_score
+      end
+    end
+
+    # Calculate final average score
+    final_score = (total_score / total_questions).round(2)
 
     @quiz_attempt.update!(
       completed: true,
       completed_at: Time.current,
-      score: score
+      score: final_score
     )
   end
 end
