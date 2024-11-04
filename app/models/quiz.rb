@@ -7,4 +7,11 @@ class Quiz < ApplicationRecord
   accepts_nested_attributes_for :questions, allow_destroy: true
 
   validates :title, :time_limit, presence: true
+
+  def upload_csv(csv_file)
+    csv_file.read.split("\n").each do |line|
+      content, correct, *answers = line.split(",")
+      questions.build(content: content, answers_attributes: answers.map { |answer| { content: answer, correct: correct.split(";").map(&:strip).include?(answer.strip) } })
+    end
+  end
 end

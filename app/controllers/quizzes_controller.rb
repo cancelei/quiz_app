@@ -17,6 +17,7 @@ class QuizzesController < ApplicationController
 
   def create
     @quiz = current_user.quizzes.build(quiz_params)
+    upload_csv
     if @quiz.save
       redirect_to @quiz, notice: 'Quiz was successfully created.'
     else
@@ -28,6 +29,7 @@ class QuizzesController < ApplicationController
   end
 
   def update
+    upload_csv
     if @quiz.update(quiz_params)
       redirect_to @quiz, notice: 'Quiz was successfully updated.'
     else
@@ -38,6 +40,11 @@ class QuizzesController < ApplicationController
   def destroy
     @quiz.destroy
     redirect_to quizzes_path, notice: 'Quiz was successfully deleted.'
+  end
+
+  def upload_csv
+    @quiz.upload_csv(params[:quiz][:csv_file]) if params[:quiz][:csv_file].present?
+    flash[:notice] = @quiz.errors.any? ? 'Failed to upload CSV' : 'CSV uploaded successfully'
   end
 
   private
