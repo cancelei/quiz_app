@@ -10,6 +10,8 @@
         <%= answer_form.text_field :content, class: "w-full border border-gray-300 rounded-md p-2" %>
         <%= answer_form.check_box :correct %>
         <%= answer_form.label :correct, "Correct Answer" %>
+        <%= answer_form.label :_destroy, "Delete Answer", class: "text-red-600 hover:text-red-800" %>
+        <%= answer_form.check_box :_destroy %>
       </div>
     <% end %>
   </div>
@@ -17,4 +19,6 @@
   <button type="button" class="add-answer bg-gray-500 text-white px-2 py-1 rounded-md mt-2" onclick="addAnswer(this)">
     Add Answer
   </button>
+  <%= f.check_box :_destroy, class: "text-red-600 hover:text-red-800" %>
+  <%= f.label :_destroy, "Delete Question", class: "text-red-600 hover:text-red-800" %>
 </div>

@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to quiz_path(@quiz), notice: 'Question was successfully deleted.'
+    redirect_back fallback_location: quiz_path(@quiz), notice: 'Question was successfully deleted.'
   end
 
   private

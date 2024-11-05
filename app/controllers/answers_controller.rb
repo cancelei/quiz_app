@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to quiz_path(@question.quiz), notice: 'Answer was successfully deleted.'
+    redirect_back fallback_location: quiz_path(@question.quiz), notice: 'Answer was successfully deleted.'
   end
 
   private

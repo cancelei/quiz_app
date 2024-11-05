@@ -51,11 +51,16 @@
         <input class="w-full border border-gray-300 rounded-md p-2" type="text" name="quiz[questions_attributes][NEW_INDEX][answers_attributes][0][content]" id="quiz_questions_attributes_NEW_INDEX_answers_attributes_0_content">
         <input name="quiz[questions_attributes][NEW_INDEX][answers_attributes][0][correct]" type="hidden" value="0" autocomplete="off"><input type="checkbox" value="1" name="quiz[questions_attributes][NEW_INDEX][answers_attributes][0][correct]" id="quiz_questions_attributes_NEW_INDEX_answers_attributes_0_correct">
         <label for="quiz_questions_attributes_NEW_INDEX_answers_attributes_0_correct">Correct Answer</label>
+        <label for="quiz_questions_attributes_NEW_INDEX_answers_attributes_0_delete">Delete Answer</label>
+        <input type="checkbox" name="quiz[questions_attributes][NEW_INDEX][answers_attributes][0][_destroy]" id="quiz_questions_attributes_NEW_INDEX_answers_attributes_0_delete">
       </div>
     </div>
     <button type="button" class="add-answer bg-gray-500 text-white px-2 py-1 rounded-md mt-2" onclick="addAnswer(this)">
       Add Answer
     </button>
+    <label for="quiz_questions_attributes_NEW_INDEX_delete">Delete Question</label>
+    <input type="checkbox" name="quiz[questions_attributes][NEW_INDEX][_destroy]" id="quiz_questions_attributes_NEW_INDEX_delete">
+
   </div>
 </template>
 
@@ -82,6 +87,8 @@
                           <input class="w-full border border-gray-300 rounded-md p-2" type="text" name="quiz[questions_attributes][${questionIndex}][answers_attributes][${answerIndex}][content]" id="quiz_questions_attributes_${questionIndex}_answers_attributes_${answerIndex}_content">
                           <input name="quiz[questions_attributes][${questionIndex}][answers_attributes][${answerIndex}][correct]" type="hidden" value="0" autocomplete="off"><input type="checkbox" value="1" name="quiz[questions_attributes][${questionIndex}][answers_attributes][${answerIndex}][correct]" id="quiz_questions_attributes_${questionIndex}_answers_attributes_${answerIndex}_correct">
                           <label for="quiz_questions_attributes_${questionIndex}_answers_attributes_${answerIndex}_correct">Correct Answer</label>
+                          <label for="quiz_questions_attributes_${questionIndex}_answers_attributes_${answerIndex}_delete">Delete Answer</label>
+                          <input type="checkbox" name="quiz[questions_attributes][${questionIndex}][answers_attributes][${answerIndex}][_destroy]" id="quiz_questions_attributes_${questionIndex}_answers_attributes_${answerIndex}_delete">
                         </div>
                   `;
         answersContainer.insertAdjacentHTML("beforeend", answerHTML);
