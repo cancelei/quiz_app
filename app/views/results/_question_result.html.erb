@@ -1,0 +1,17 @@
+<div class="border rounded-lg p-4">
+  <h3 class="font-semibold mb-2">
+    Question <%= question_number %>: <%= question.content %>
+  </h3>
+
+  <div class="space-y-2 mt-4">
+    <% question.answers.each do |answer| %>
+      <% user_selected = user_answers.any? { |ua| ua.answer_id == answer.id } %>
+      <div class="flex items-center p-2 rounded <%= answer_status_class(answer, user_selected) %>">
+        <%= render "results/answer_indicator", 
+            answer: answer, 
+            user_selected: user_selected %>
+        <span class="ml-2"><%= answer.content %></span>
+      </div>
+    <% end %>
+  </div>
+</div> 
