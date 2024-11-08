@@ -1,27 +1,31 @@
-<h1 class="font-bold text-4xl">All Quizzes</h1>
-<div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-  <%= link_to "New", new_quiz_path %>
+<h1 class="font-bold text-4xl text-center mb-6">All Quizzes</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <%= link_to "New", new_quiz_path, class: "block text-center text-xl bg-blue-500 p-4 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300" %>
   <% @quizzes.each do |quiz| %>
-    <div class="border rounded-lg p-4 bg-gray-50 shadow-md">
-      <h2 class="text-xl font-semibold"><%= link_to quiz.title, quiz_path(quiz) %></h2>
-      <p><%= truncate(quiz.description, length: 80) %></p>
-      <p>Time Limit: <%= quiz.time_limit %> mins</p>
-      <p>Questions: <%= quiz.questions.count %></p>
-      <p>Attempts: <%= quiz.user_quiz_attempts.count %></p>
-      <p>Average Score: <%= quiz.user_quiz_attempts.average(:score)&.round(2) || 'No attempts yet' %></p>
-      <p>Highest Score: <%= quiz.user_quiz_attempts.maximum(:score) || 'No attempts yet' %></p>
-      <p>Lowest Score: <%= quiz.user_quiz_attempts.minimum(:score) || 'No attempts yet' %></p>
-      <p>Completed: <%= quiz.user_quiz_attempts.where(completed: true).count %></p>
-      <p>Incomplete: <%= quiz.user_quiz_attempts.where(completed: false).count %></p>
-      <p>Created At: <%= quiz.created_at.strftime("%B %d, %Y") %></p>
-      <p>Updated At: <%= quiz.updated_at.strftime("%B %d, %Y") %></p>
-
-      <% if admin? %>
-        <%= link_to "Edit", edit_quiz_path(quiz), class: "text-blue-500 hover:underline" %> |
-        <%= button_to "Delete", quiz_path(quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline" %>
-      <% end %>
-
-      <%= link_to "Take Quiz", quiz_path(quiz), class: "text-blue-500 hover:underline" %>
+    <div class="border rounded-lg p-6 bg-white shadow-lg hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-semibold mb-2"><%= link_to quiz.title, quiz_path(quiz), class: "text-blue-600 hover:text-blue-800 transition duration-300" %></h2>
+      <p class="text-gray-700 mb-2"><%= truncate(quiz.description, length: 80) %></p>
+      <div class="text-sm text-gray-600 space-y-1">
+        <p>Time Limit: <%= quiz.time_limit %> mins</p>
+        <p>Questions: <%= quiz.questions.count %></p>
+        <p>Attempts: <%= quiz.user_quiz_attempts.count %></p>
+        <p>Average Score: <%= quiz.user_quiz_attempts.average(:score)&.round(2) || 'No attempts yet' %></p>
+        <p>Highest Score: <%= quiz.user_quiz_attempts.maximum(:score) || 'No attempts yet' %></p>
+        <p>Lowest Score: <%= quiz.user_quiz_attempts.minimum(:score) || 'No attempts yet' %></p>
+        <p>Completed: <%= quiz.user_quiz_attempts.where(completed: true).count %></p>
+        <p>Incomplete: <%= quiz.user_quiz_attempts.where(completed: false).count %></p>
+        <p>Created At: <%= quiz.created_at.strftime("%B %d, %Y") %></p>
+        <p>Updated At: <%= quiz.updated_at.strftime("%B %d, %Y") %></p>
+      </div>
+      <div class="mt-4 flex justify-between items-center">
+        <% if admin? %>
+          <div class="flex space-x-2">
+            <%= link_to "Edit", edit_quiz_path(quiz), class: "text-blue-500 hover:text-blue-700 transition duration-300" %>
+            <%= button_to "Delete", quiz_path(quiz), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:text-red-700 transition duration-300" %>
+          </div>
+        <% end %>
+        <%= link_to "Take Quiz", quiz_path(quiz), class: "text-blue-500 hover:text-blue-700 transition duration-300" %>
+      </div>
     </div>
   <% end %>
 </div>

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   # Root path
-  root "home#index"
+  root "quizzes#index"
 
   # Quiz resources
   resources :quizzes do
